@@ -1,8 +1,12 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useRequestCreateTodo } from '../../hooks/use-request-create-todos';
 import styles from './form-create-todo.module.css';
+import { createTodo } from '../../actions';
 
 export const FormCreateTodo = ({ setTodos }) => {
+	const dispatch = useDispatch();
+
 	const [newTodo, setNewTodo] = useState('');
 	const [messageError, setMessageError] = useState('');
 
@@ -13,7 +17,8 @@ export const FormCreateTodo = ({ setTodos }) => {
 		event.preventDefault();
 
 		if (newTodo.trim().length < 3) return;
-		requestCreateTodo(newTodo.trim());
+		// requestCreateTodo(newTodo.trim());
+		dispatch(createTodo(newTodo.trim()));
 
 		setNewTodo('');
 	};
