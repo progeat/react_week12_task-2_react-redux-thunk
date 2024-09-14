@@ -1,19 +1,19 @@
 import { useState } from 'react';
-import { useRequestDeleteTodos, useRequestUpdateTodos } from '../../hooks';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteTodo, updateTodo } from '../../actions';
+import { selectIsLoading } from '../../selectors';
 import styles from './item.module.css';
 
-export const Item = ({ id, title, completed, setTodos }) => {
-	const [editId, setEditId] = useState('');
+export const Item = ({ id, title, completed }) => {
+	const [editFlag, setEditFlag] = useState('');
 	const [editInputValue, setEditInputValue] = useState(title);
-	const { isDeletingFlag, errorDeleting, onDelete } = useRequestDeleteTodos(setTodos);
-	const { isUpdatingFlag, errorUpdating, onUpdating } = useRequestUpdateTodos(setTodos);
+	const isLoading = useSelector(selectIsLoading);
 
-	const errorItem = errorUpdating || errorDeleting;
+	const dispatch = useDispatch();
 
 	return (
 		<li className={styles.item + ' ' + (completed && styles['item-completed'])}>
-			{errorItem && <div className={styles.error}>{errorItem}</div>}
-			{editId ? (
+			{editFlag ? (
 				<input
 					autoFocus
 					type="text"
@@ -26,12 +26,14 @@ export const Item = ({ id, title, completed, setTodos }) => {
 				<span>{title}</span>
 			)}
 			<div className={styles['item_button-wrapp']}>
-				{editId ? (
+				{editFlag ? (
 					<button
 						className={styles['item_button-edit']}
 						onClick={() => {
-							onUpdating(id, editInputValue, completed);
-							setEditId('');
+							dispatch(
+								updateTodo({ id, title: editInputValue, completed }),
+							);
+							setEditFlag(false);
 						}}
 					>
 						confirm
@@ -39,22 +41,24 @@ export const Item = ({ id, title, completed, setTodos }) => {
 				) : (
 					<button
 						className={styles['item_button-edit']}
-						onClick={() => setEditId(id)}
+						onClick={() => setEditFlag(true)}
 					>
 						edit
 					</button>
 				)}
 				<button
 					className={styles['item_button-complete']}
-					onClick={() => onUpdating(id, title, (completed = !completed))}
-					disabled={isUpdatingFlag}
+					onClick={() =>
+						dispatch(updateTodo({ id, title, completed: !completed }))
+					}
+					disabled={isLoading}
 				>
 					complete
 				</button>
 				<button
 					className={styles['item_button-delete']}
-					onClick={() => onDelete(id)}
-					disabled={isDeletingFlag}
+					onClick={() => dispatch(deleteTodo(id))}
+					disabled={isLoading}
 				>
 					delete
 				</button>

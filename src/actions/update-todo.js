@@ -1,12 +1,12 @@
-import { getRequestTodos } from '../api';
+import { changeTodo } from './change-todo';
+import { updateRequestTodo } from '../api';
 import { setIsLoading } from './set-is-loading';
-import { setTodos } from './set-todos';
 import { setErrorFetch } from './set-error-fetch';
 
-export const getTodos = (dispatch) => {
+export const updateTodo = (updatedTodo) => (dispatch) => {
 	dispatch(setIsLoading(true));
 
-	getRequestTodos()
+	updateRequestTodo(updatedTodo)
 		.then((responseData) => {
 			if (!responseData.ok) {
 				throw Error('data could not be sent to this resource');
@@ -14,7 +14,7 @@ export const getTodos = (dispatch) => {
 
 			return responseData.json();
 		})
-		.then((todos) => dispatch(setTodos(todos)))
+		.then((todo) => dispatch(changeTodo(todo)))
 		.catch((error) => dispatch(setErrorFetch(error.message)))
 		.finally(() => dispatch(setIsLoading(false)));
 };

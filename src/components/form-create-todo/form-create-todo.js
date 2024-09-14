@@ -1,23 +1,21 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useRequestCreateTodo } from '../../hooks/use-request-create-todos';
+import { useDispatch, useSelector } from 'react-redux';
+import { createTodo, setErrorCreation } from '../../actions';
+import { selectErrorCreation, selectIsLoading } from '../../selectors';
 import styles from './form-create-todo.module.css';
-import { createTodo } from '../../actions';
 
-export const FormCreateTodo = ({ setTodos }) => {
-	const dispatch = useDispatch();
-
+export const FormCreateTodo = () => {
 	const [newTodo, setNewTodo] = useState('');
-	const [messageError, setMessageError] = useState('');
+	const errorCreating = useSelector(selectErrorCreation);
+	const isLoading = useSelector(selectIsLoading);
 
-	const { isCreatingFlag, errorCreating, requestCreateTodo } =
-		useRequestCreateTodo(setTodos);
+	const dispatch = useDispatch();
 
 	const onSubmit = (event) => {
 		event.preventDefault();
 
 		if (newTodo.trim().length < 3) return;
-		// requestCreateTodo(newTodo.trim());
+
 		dispatch(createTodo(newTodo.trim()));
 
 		setNewTodo('');
@@ -25,21 +23,22 @@ export const FormCreateTodo = ({ setTodos }) => {
 
 	const onChangeNewTodo = ({ target }) => {
 		setNewTodo(target.value);
-		setMessageError('');
+		dispatch(setErrorCreation(''));
 	};
 
 	const onBlurNewTodo = ({ target }) => {
 		const valueNewTodo = target.value.trim();
 
 		if (valueNewTodo && valueNewTodo.length < 3) {
-			setMessageError('There must be more than 3 characters');
+			const errorMessage = 'There must be more than 3 characters';
+
+			dispatch(setErrorCreation(errorMessage));
 		}
 	};
 
 	return (
 		<form className={styles['form-new-todo']} onSubmit={onSubmit}>
 			{errorCreating && <div className={styles.error}>{errorCreating}</div>}
-			{messageError && <div className={styles.error}>{messageError}</div>}
 			<input
 				type="text"
 				name="newTodo"
@@ -52,7 +51,7 @@ export const FormCreateTodo = ({ setTodos }) => {
 			<button
 				type="submit"
 				className={styles['button-new-todo']}
-				disabled={isCreatingFlag}
+				disabled={isLoading}
 			>
 				Add
 			</button>

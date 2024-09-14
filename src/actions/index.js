@@ -2,3 +2,8 @@ export * from './set-todos';
 export * from './get-todos';
 export * from './add-todo';
 export * from './create-todo';
+export * from './delete-todo';
+export * from './remove-todo';
+export * from './change-todo';
+export * from './update-todo';
+export * from './set-error-creation';

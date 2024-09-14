@@ -1,28 +1,23 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { List } from '../index';
 import { useDebonce } from '../../hooks';
 import { getFilteredListTodos } from '../../utils';
-import { getTodos } from '../../actions';
-import { selectTodos } from '../../selectors';
+import { selectErrorFetch, selectTodos } from '../../selectors';
 import styles from './body-app.module.css';
 
-export const BodyApp = ({ setTodos, errorGetting }) => {
-	const todos = useSelector(selectTodos);
-
-	const dispatch = useDispatch();
-
-	useEffect(() => {
-		dispatch(getTodos);
-	}, [dispatch]);
-
+export const BodyApp = () => {
 	const [searchValue, setSearchValue] = useState('');
 	const [isSortFlag, setIsSortFlag] = useState(false);
+
+	const todos = useSelector(selectTodos);
+	const errorFetch = useSelector(selectErrorFetch);
+
 	const { debouncedValue } = useDebonce(searchValue, 300);
 
 	const newListTodos = getFilteredListTodos(todos, isSortFlag, debouncedValue);
 
-	if (errorGetting) return <div className={styles.error}>{errorGetting}</div>;
+	if (errorFetch) return <div className={styles.error}>{errorFetch}</div>;
 
 	return (
 		<>
@@ -46,7 +41,7 @@ export const BodyApp = ({ setTodos, errorGetting }) => {
 					onChange={({ target }) => setSearchValue(target.value)}
 				/>
 			</div>
-			<List todos={newListTodos} setTodos={setTodos} />
+			<List todos={newListTodos} />
 		</>
 	);
 };
