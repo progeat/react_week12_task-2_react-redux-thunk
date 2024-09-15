@@ -1,3 +1,5 @@
+import { ACTION_TYPE } from '../constants';
+
 export const initialErrorsState = {
 	fetchError: '',
 	creationError: '',
@@ -5,13 +7,13 @@ export const initialErrorsState = {
 
 export const errorsReducer = (state = initialErrorsState, { type, payload }) => {
 	switch (type) {
-		case 'SET_ERROR_FETCH':
+		case ACTION_TYPE.SET_ERROR_FETCH:
 			return {
 				...state,
 				fetchError: payload,
 			};
 
-		case 'SET_ERROR_CREATION':
+		case ACTION_TYPE.SET_ERROR_CREATION:
 			return {
 				...state,
 				creationError: payload,

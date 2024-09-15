@@ -1,4 +1,6 @@
+import { ACTION_TYPE } from '../constants';
+
 export const setTodos = (todos) => ({
-	type: 'SET_TODOS',
+	type: ACTION_TYPE.SET_TODOS,
 	payload: todos,
 });

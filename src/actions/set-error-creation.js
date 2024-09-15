@@ -1,4 +1,6 @@
+import { ACTION_TYPE } from '../constants';
+
 export const setErrorCreation = (error) => ({
-	type: 'SET_ERROR_CREATION',
+	type: ACTION_TYPE.SET_ERROR_CREATION,
 	payload: error,
 });

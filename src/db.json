@@ -1,24 +1,24 @@
 {
-  "todos": [
-    {
-      "title": "abcdefg",
-      "completed": false,
-      "id": 1
-    },
-    {
-      "title": "12345",
-      "completed": false,
-      "id": 2
-    },
-    {
-      "title": "cw3c2w3cf",
-      "completed": false,
-      "id": 4
-    },
-    {
-      "title": "cqwc",
-      "completed": false,
-      "id": 6
-    }
-  ]
+	"todos": [
+		{
+			"title": "12345",
+			"completed": false,
+			"id": 1
+		},
+		{
+			"title": "ABCDEF",
+			"completed": true,
+			"id": 2
+		},
+		{
+			"title": "54321",
+			"completed": false,
+			"id": 3
+		},
+		{
+			"title": "fedcba",
+			"completed": false,
+			"id": 4
+		}
+	]
 }

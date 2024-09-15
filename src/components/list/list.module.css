@@ -4,3 +4,8 @@
 	min-height: 320px;
 	list-style: none;
 }
+
+.list-message {
+	text-align: center;
+	color: #eee;
+}

@@ -1,6 +1,6 @@
-import { type } from '@testing-library/user-event/dist/type';
+import { ACTION_TYPE } from '../constants';
 
 export const removeTodo = (id) => ({
-	type: 'REMOVE_TODO',
+	type: ACTION_TYPE.REMOVE_TODO,
 	payload: id,
 });
